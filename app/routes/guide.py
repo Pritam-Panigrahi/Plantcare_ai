@@ -71,9 +71,9 @@ def ask_guide():
         return jsonify({
             "success": True,
             "answer": ai_result["explanation"],
-            "model_used": ai_result.get("model_used", "Local Ollama LLM"),
+            "model_used": ai_result.get("model_used", "AI Model"),
             "is_ai_generated": True,
-            "provider": "ollama_local",
+            "provider": ai_result.get("provider", "google_gemini"),
         })
 
     # Graceful fallback: match keywords or provide a comprehensive thoughtful naturalist answer

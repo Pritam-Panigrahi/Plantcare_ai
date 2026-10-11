@@ -1,7 +1,10 @@
 import os
 from pathlib import Path
+from dotenv import load_dotenv
 
 BASE_DIR = Path(__file__).resolve().parent
+# Load .env variables immediately
+load_dotenv(dotenv_path=BASE_DIR / ".env")
 
 class Config:
     """Base application configuration."""
