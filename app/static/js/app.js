@@ -39,7 +39,7 @@ function initNetworkStatus() {
   updateStatus();
 }
 
-// Poll local Ollama status on app startup
+// Poll AI status on app startup
 function checkAIStatus() {
   const statusPill = document.getElementById('ai-status-indicator');
   const statusText = document.getElementById('ai-status-text');
@@ -51,12 +51,13 @@ function checkAIStatus() {
 
       if (data.connected) {
         statusPill.className = 'ai-status-pill online';
-        statusText.textContent = `Local AI: ${data.vision_model_configured || 'Connected'}`;
-        statusPill.title = data.status_message || 'Local Ollama is running';
+        const modelLabel = data.active_model || data.gemini_model || data.vision_model_configured || 'Online';
+        statusText.textContent = `AI: ${modelLabel}`;
+        statusPill.title = data.status_message || 'AI service connected and ready';
       } else {
         statusPill.className = 'ai-status-pill offline';
         statusText.textContent = 'Offline / Curated Library';
-        statusPill.title = data.status_message || 'Ollama is offline. Educational fallback active.';
+        statusPill.title = data.status_message || 'AI is offline. Educational fallback active.';
       }
     })
     .catch(() => {

@@ -165,7 +165,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const modelBadge = document.getElementById('res-model-badge');
     if (analysis.is_ai_generated) {
       modelBadge.className = 'badge bg-success-subtle text-success border border-success-subtle';
-      modelBadge.textContent = `Identified by Local AI: ${analysis.model_used || 'Ollama'}`;
+      const providerLabel = analysis.provider === 'google_gemini' ? 'Google Gemini' : 'Local AI';
+      modelBadge.textContent = `Identified by ${providerLabel}: ${analysis.model_used || 'AI'}`;
     } else {
       modelBadge.className = 'badge bg-warning-subtle text-warning-emphasis border border-warning-subtle';
       modelBadge.textContent = `Curated Naturalist Library (${analysis.model_used || 'Offline'})`;

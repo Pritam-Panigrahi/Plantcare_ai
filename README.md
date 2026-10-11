@@ -88,16 +88,23 @@ graph TD
 
 ---
 
-## 🧠 Open-Weight Model Selection & Licenses
+## 🧠 AI Engine Options: Google Gemini API & Local Ollama
 
-| Role | Recommended Model | Minimum VRAM / RAM | License |
-|---|---|---|---|
-| **Vision-Language** | `llama3.2-vision:11b` | 8GB - 12GB VRAM | Llama 3.2 Community License |
-| **Vision (Lightweight)** | `llava:7b` | 4GB - 6GB VRAM | LLaVA Research / Apache 2.0 |
-| **Text Generation** | `llama3.2:3b` | 2GB - 4GB RAM | Llama 3.2 Community License |
-| **Text (Alternative)** | `qwen2.5:3b` | 2GB - 4GB RAM | Apache 2.0 |
+NatureLens AI supports two inference engines:
 
-*Note: NatureLens AI never uses proprietary closed APIs (OpenAI, Gemini, Claude) as primary intelligence. When Ollama is offline or hardware lacks sufficient memory, NatureLens gracefully activates its built-in curated naturalist library with full transparency.*
+### 1. Google Gemini API (Recommended for instant, high-accuracy cloud inference)
+Powered by the official `google-genai` Python SDK.
+- **Recommended Model**: `gemini-2.5-flash` (state-of-the-art multimodal vision and fast text reasoning)
+- **Fallback Model**: `gemini-2.0-flash`
+- **Key Features**: Instant species identification with high botanical/zoological accuracy, zero local GPU hardware requirements.
+- **Security**: The API key is securely loaded from `.env` via `python-dotenv`. It is never hardcoded and never exposed to the frontend.
+
+### 2. Local Ollama (For 100% offline, local open-weight inference)
+- **Vision Model**: `llama3.2-vision:11b` (or `llava:7b` for low VRAM)
+- **Text Model**: `llama3.2:3b`
+- **Privacy**: Zero external calls; runs entirely on localhost:11434.
+
+*(If neither Gemini nor Ollama is configured, NatureLens AI automatically activates its built-in Curated Naturalist Library for demo and testing without errors!)*
 
 ---
 
@@ -105,7 +112,8 @@ graph TD
 
 ### Prerequisites
 - Python 3.11 or newer installed.
-- (Optional for live AI inference) [Ollama](https://ollama.com/) installed and running.
+- (For Gemini AI) A free API key from [Google AI Studio](https://aistudio.google.com/).
+- (For Local AI) [Ollama](https://ollama.com/) installed and running.
 
 ---
 
@@ -144,39 +152,27 @@ pip install -r requirements.txt
 # Copy the example environment file
 cp .env.example .env
 ```
-Default `.env` configuration:
+Open `.env` and set your credentials:
 ```env
 FLASK_ENV=development
 FLASK_APP=run.py
 SECRET_KEY=change-this-in-production
+
+# Google Gemini API (Official google-genai SDK)
+GEMINI_API_KEY=your_new_api_key_here
+GEMINI_MODEL=gemini-2.5-flash
+
+# (Optional) Local Ollama Fallback Settings
 OLLAMA_BASE_URL=http://127.0.0.1:11434
 OLLAMA_VISION_MODEL=llama3.2-vision:11b
-OLLAMA_VISION_MODEL_FALLBACK=llava:7b
 OLLAMA_TEXT_MODEL=llama3.2:3b
+
 DEMO_MODE_ALLOWED=true
 ```
 
 ---
 
-### Step 3: (Optional) Setup Ollama Models
-
-If you wish to run live local AI inference on your machine:
-```bash
-# Start Ollama daemon in background or open the Ollama app
-ollama serve
-
-# Pull the recommended models:
-ollama pull llama3.2-vision:11b
-ollama pull llama3.2:3b
-
-# If your machine has under 8GB GPU memory, pull the lightweight vision model instead:
-ollama pull llava:7b
-```
-*(If you do not have Ollama installed or are on modest hardware, the app automatically runs in Offline Naturalist Library mode with full access to exploration missions and journal features!)*
-
----
-
-### Step 4: Run the Application
+### Step 3: Run the Application
 ```bash
 python run.py
 ```

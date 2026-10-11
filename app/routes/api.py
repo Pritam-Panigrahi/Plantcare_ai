@@ -26,12 +26,16 @@ def health_check():
 
 @api_bp.route("/api/ai-status", methods=["GET"])
 def ai_status():
-    """Returns safe diagnostic information regarding local Ollama connectivity."""
-    status_info = ai_service.check_ollama_status()
-    # Mask any internal sensitive parameters
+    """Returns safe diagnostic information regarding AI connectivity (Gemini & Ollama)."""
+    status_info = ai_service.check_ai_status()
+    # Mask any internal sensitive parameters (API key is strictly omitted)
     safe_data = {
         "connected": status_info.get("connected", False),
-        "mode": "Local Open-Weight AI (Ollama)" if status_info.get("connected") else "Offline / Curated Library Mode",
+        "provider": status_info.get("provider", "offline"),
+        "active_model": status_info.get("active_model", ""),
+        "mode": status_info.get("mode", "Offline Mode"),
+        "gemini_configured": status_info.get("gemini_configured", False),
+        "gemini_model": status_info.get("gemini_model"),
         "vision_model_configured": current_app.config.get("OLLAMA_VISION_MODEL"),
         "text_model_configured": current_app.config.get("OLLAMA_TEXT_MODEL"),
         "available_models": status_info.get("available_models", []),

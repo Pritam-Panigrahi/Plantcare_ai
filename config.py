@@ -20,6 +20,11 @@ class Config:
     SQLALCHEMY_DATABASE_URI = os.environ.get("DATABASE_URL", f"sqlite:///{db_path}")
     SQLALCHEMY_TRACK_MODIFICATIONS = False
     
+    # Google Gemini AI Configuration
+    GEMINI_API_KEY = os.environ.get("GEMINI_API_KEY", "")
+    GEMINI_MODEL = os.environ.get("GEMINI_MODEL", "gemini-2.5-flash")
+    GEMINI_FALLBACK_MODEL = os.environ.get("GEMINI_FALLBACK_MODEL", "gemini-2.0-flash")
+
     # Ollama Local AI Configuration
     OLLAMA_BASE_URL = os.environ.get("OLLAMA_BASE_URL", "http://127.0.0.1:11434").rstrip("/")
     OLLAMA_VISION_MODEL = os.environ.get("OLLAMA_VISION_MODEL", "llama3.2-vision:11b")
@@ -32,7 +37,7 @@ class Config:
     WTF_CSRF_TIME_LIMIT = 3600
     
     # Demo & Fallback Configuration
-    # When Ollama is offline or model not found, allows realistic curated nature data
+    # When AI is offline or model not found, allows realistic curated nature data
     DEMO_MODE_ALLOWED = os.environ.get("DEMO_MODE_ALLOWED", "true").lower() in ("true", "1", "yes")
 
 
