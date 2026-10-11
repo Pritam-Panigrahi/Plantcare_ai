@@ -1,0 +1,161 @@
+{% extends "base.html" %}
+
+{% block title %}About NatureLens AI — Open-Source AI &amp; Touch Grass Architecture{% endblock %}
+
+{% block content %}
+<div class="container-xl py-4">
+  <div class="row justify-content-center">
+    <div class="col-lg-9">
+      <!-- Title & Mission -->
+      <div class="nature-card p-4 p-md-5 mb-4">
+        <span class="badge bg-success-subtle text-success py-1 px-3 rounded-pill fw-semibold mb-2">
+          Hacktoberfest 2026: Week 1 &bull; Touch Grass
+        </span>
+        <h1 class="display-6 fw-bold text-forest mb-3">Our Mission &amp; Open-Source AI Architecture</h1>
+        <p class="lead text-muted mb-4">
+          "Look closer. Discover nature. Touch grass."
+        </p>
+
+        <p class="text-muted">
+          Modern technology often competes for human attention, drawing people into continuous screen time and virtual spaces. <strong>NatureLens AI</strong> reverses this dynamic: we use local open-source artificial intelligence not to keep you glued to an algorithm, but as a temporary, mindful lens that encourages you to step outdoors and explore the physical biodiversity of your neighborhood.
+        </p>
+      </div>
+
+      <!-- Why Open-Source AI Matters Section -->
+      <div class="nature-card p-4 p-md-5 mb-4">
+        <h2 class="h3 fw-bold text-forest mb-3">Why Does Open Innovation Matter?</h2>
+        <p class="text-muted mb-4">
+          Most mainstream consumer AI tools rely on proprietary cloud APIs (such as OpenAI, Gemini, or Claude). For a nature exploration companion, proprietary cloud intelligence introduces severe drawbacks:
+        </p>
+
+        <div class="row g-4 mb-4">
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded-3 border h-100">
+              <h5 class="fw-bold text-forest mb-2">
+                <i class="bi bi-shield-lock-fill text-primary me-2"></i>1. Absolute Media Privacy
+              </h5>
+              <p class="small text-muted mb-0">
+                When you photograph a plant in your backyard, a bird outside your window, or a trail near your home, proprietary services harvest that imagery. NatureLens AI processes everything locally on your machine via <strong>Ollama</strong>. Your photographs never leave your device.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded-3 border h-100">
+              <h5 class="fw-bold text-forest mb-2">
+                <i class="bi bi-cpu-fill text-primary me-2"></i>2. Hardware &amp; Model Choice
+              </h5>
+              <p class="small text-muted mb-0">
+                Open weights grant you complete control over your computing stack. You can run <em>Llama 3.2 Vision (11B)</em> on a modern GPU, or downscale to a lightweight <em>LLaVA (7B)</em> on modest laptop hardware, configured simply by environment variables.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded-3 border h-100">
+              <h5 class="fw-bold text-forest mb-2">
+                <i class="bi bi-currency-dollar text-primary me-2"></i>3. Zero Paywalls &amp; Token Fees
+              </h5>
+              <p class="small text-muted mb-0">
+                Biodiversity education should be accessible to students, kids, and hikers regardless of their budget. Open-source models require no recurring subscriptions, credit cards, or API token limits.
+              </p>
+            </div>
+          </div>
+
+          <div class="col-md-6">
+            <div class="p-3 bg-light rounded-3 border h-100">
+              <h5 class="fw-bold text-forest mb-2">
+                <i class="bi bi-wifi-off text-primary me-2"></i>4. Offline Resilience
+              </h5>
+              <p class="small text-muted mb-0">
+                Nature exists where cell signals fail. When running NatureLens AI locally on a laptop in the field, your database, journal, and pre-downloaded open models remain fully operational with zero internet connection.
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Supported Models Architecture -->
+      <div class="nature-card p-4 p-md-5 mb-4">
+        <h2 class="h3 fw-bold text-forest mb-3">Model Ecosystem &amp; Ollama Configuration</h2>
+        <p class="text-muted small mb-3">
+          NatureLens AI interfaces directly with Ollama's local HTTP API (<code class="text-forest">http://127.0.0.1:11434</code>):
+        </p>
+
+        <div class="table-responsive mb-4">
+          <table class="table table-bordered align-middle small mb-0">
+            <thead class="table-light">
+              <tr>
+                <th>Role</th>
+                <th>Recommended Model</th>
+                <th>Fallback / Low-VRAM</th>
+                <th>License</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><strong>Vision Model</strong> (Image understanding)</td>
+                <td><code>llama3.2-vision:11b</code></td>
+                <td><code>llava:7b</code></td>
+                <td>Llama 3.2 Community License / Open-Weight</td>
+              </tr>
+              <tr>
+                <td><strong>Language Model</strong> (Guide &amp; Missions)</td>
+                <td><code>llama3.2:3b</code></td>
+                <td><code>qwen2.5:3b</code></td>
+                <td>Open-Weight / Apache 2.0</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
+        <div class="p-3 bg-light-subtle rounded-3 border">
+          <h6 class="fw-bold text-forest small mb-2"><i class="bi bi-terminal me-1"></i> Quick Terminal Commands to Pull Models:</h6>
+          <pre class="bg-dark text-white p-3 rounded-2 small mb-0"><code># Pull the vision model:
+ollama pull llama3.2-vision:11b
+
+# Or lightweight alternative if GPU VRAM is under 8GB:
+ollama pull llava:7b
+
+# Pull the lightweight text model:
+ollama pull llama3.2:3b</code></pre>
+        </div>
+      </div>
+
+      <!-- Ethical Wildlife Exploration Guidelines -->
+      <div class="nature-card p-4 p-md-5 mb-4">
+        <h2 class="h3 fw-bold text-forest mb-3">Ethical Exploration Code</h2>
+        <p class="text-muted small mb-3">
+          When exploring parks, woods, and community gardens with NatureLens AI, always follow the Outdoor Naturalist Code:
+        </p>
+        <div class="row g-3">
+          <div class="col-md-6">
+            <div class="p-3 bg-white rounded-3 border h-100">
+              <strong class="text-forest d-block mb-1">🌿 Leave No Trace</strong>
+              <p class="small text-muted mb-0">Stay on marked paths, never pick rare wildflowers, and pack out any waste you encounter.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 bg-white rounded-3 border h-100">
+              <strong class="text-forest d-block mb-1">🐦 Respect Wildlife Sanctuaries</strong>
+              <p class="small text-muted mb-0">Never approach active nests, disturb breeding pairs, or use loud artificial audio lures.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 bg-white rounded-3 border h-100">
+              <strong class="text-forest d-block mb-1">🐝 Hands Off Unknown Organisms</strong>
+              <p class="small text-muted mb-0">Observe wasps, caterpillars, and unfamiliar fungi visually. Never handle venomous or spiny species.</p>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="p-3 bg-white rounded-3 border h-100">
+              <strong class="text-forest d-block mb-1">📱 Mindful Screen Boundaries</strong>
+              <p class="small text-muted mb-0">Take your photograph, read the insight, and put your phone in your pocket to soak in the real air.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

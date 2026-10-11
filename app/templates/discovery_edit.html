@@ -1,0 +1,65 @@
+{% extends "base.html" %}
+
+{% block title %}Edit {{ discovery.common_name }} — NatureLens AI{% endblock %}
+
+{% block content %}
+<div class="container-xl py-4">
+  <div class="mb-3">
+    <a href="{{ url_for('journal.discovery_detail', discovery_id=discovery.id) }}" class="text-muted small text-decoration-none hover-primary">
+      <i class="bi bi-arrow-left me-1"></i> Back to Discovery
+    </a>
+  </div>
+
+  <div class="row justify-content-center">
+    <div class="col-lg-7">
+      <div class="nature-card p-4 p-md-5">
+        <h2 class="h3 fw-bold text-forest mb-3">Edit Observation</h2>
+        <p class="text-muted small mb-4">Update your field notes, location, or verified identification.</p>
+
+        <form method="POST" action="{{ url_for('journal.edit_discovery', discovery_id=discovery.id) }}">
+          <div class="mb-3">
+            <label for="common_name" class="form-label fw-bold small text-forest">Common Name</label>
+            <input type="text" id="common_name" name="common_name" class="form-control" value="{{ discovery.common_name }}" required>
+          </div>
+
+          <div class="mb-3">
+            <label for="scientific_name" class="form-label fw-bold small text-forest">Scientific Name</label>
+            <input type="text" id="scientific_name" name="scientific_name" class="form-control" value="{{ discovery.scientific_name or '' }}">
+          </div>
+
+          <div class="mb-3">
+            <label for="category" class="form-label fw-bold small text-forest">Category</label>
+            <select id="category" name="category" class="form-select">
+              <option value="plant" {% if discovery.category == 'plant' %}selected{% endif %}>Plant</option>
+              <option value="leaf" {% if discovery.category == 'leaf' %}selected{% endif %}>Leaf</option>
+              <option value="flower" {% if discovery.category == 'flower' %}selected{% endif %}>Flower</option>
+              <option value="bird" {% if discovery.category == 'bird' %}selected{% endif %}>Bird</option>
+              <option value="insect" {% if discovery.category == 'insect' %}selected{% endif %}>Insect</option>
+              <option value="unknown" {% if discovery.category == 'unknown' %}selected{% endif %}>Unknown</option>
+            </select>
+          </div>
+
+          <div class="mb-3">
+            <label for="location_name" class="form-label fw-bold small text-forest">Location</label>
+            <input type="text" id="location_name" name="location_name" class="form-control" value="{{ discovery.location_name or '' }}" placeholder="e.g. Backyard Maple Tree">
+          </div>
+
+          <div class="mb-4">
+            <label for="user_notes" class="form-label fw-bold small text-forest">Your Observation Field Notes</label>
+            <textarea id="user_notes" name="user_notes" class="form-control" rows="4" placeholder="Add specific notes on smell, behavior, weather, or micro-habitat...">{{ discovery.user_notes or '' }}</textarea>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+            <a href="{{ url_for('journal.discovery_detail', discovery_id=discovery.id) }}" class="btn btn-outline-secondary">
+              Cancel
+            </a>
+            <button type="submit" class="btn btn-nature-primary">
+              <i class="bi bi-check2 me-1"></i> Save Changes
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

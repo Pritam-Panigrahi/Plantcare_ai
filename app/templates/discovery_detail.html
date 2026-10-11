@@ -1,0 +1,125 @@
+{% extends "base.html" %}
+
+{% block title %}{{ discovery.common_name }} — Nature Journal Observation | NatureLens AI{% endblock %}
+
+{% block content %}
+<div class="container-xl py-4">
+  <div class="mb-3">
+    <a href="{{ url_for('journal.journal') }}" class="text-muted small text-decoration-none hover-primary">
+      <i class="bi bi-arrow-left me-1"></i> Back to Journal
+    </a>
+  </div>
+
+  <div class="row g-4 justify-content-center">
+    <div class="col-lg-9">
+      <div class="nature-card overflow-hidden">
+        <!-- Observation Photo Banner -->
+        {% if discovery.image_filename %}
+          <div style="max-height: 420px; overflow: hidden; background: #163A2A; text-align: center;">
+            <img src="/uploads/{{ discovery.image_filename }}" alt="{{ discovery.common_name }}" class="img-fluid" style="max-height: 420px; object-fit: contain;">
+          </div>
+        {% endif %}
+
+        <div class="p-4 p-md-5">
+          <!-- Metadata Pills -->
+          <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+            <div class="d-flex align-items-center gap-2">
+              <span class="badge-category badge-{{ discovery.category }}">{{ discovery.category }}</span>
+              <span class="badge rounded-pill badge-conf-{{ discovery.confidence_level }}">
+                Confidence: {{ discovery.confidence_level|upper }}
+              </span>
+            </div>
+
+            <span class="badge bg-light text-muted border">
+              <i class="bi bi-cpu me-1"></i>{{ discovery.model_used or 'Local AI' }}
+            </span>
+          </div>
+
+          <!-- Header -->
+          <h1 class="display-6 fw-bold text-forest mb-1">{{ discovery.common_name }}</h1>
+          {% if discovery.scientific_name %}
+            <h4 class="fst-italic text-muted mb-3 font-body">({{ discovery.scientific_name }})</h4>
+          {% endif %}
+
+          <div class="d-flex flex-wrap gap-3 text-muted small mb-4 pb-3 border-bottom">
+            <span><i class="bi bi-calendar3 me-1"></i> Observed: {{ discovery.created_at.strftime('%B %d, %Y at %H:%M') }}</span>
+            {% if discovery.location_name %}
+              <span><i class="bi bi-geo-alt me-1 text-primary"></i> Location: {{ discovery.location_name }}</span>
+            {% endif %}
+          </div>
+
+          <!-- User Personal Notes -->
+          {% if discovery.user_notes %}
+            <div class="p-3 bg-light-subtle rounded-3 border mb-4">
+              <strong class="d-block text-forest small mb-1"><i class="bi bi-pencil-square me-1 text-primary"></i> Your Personal Field Notes:</strong>
+              <p class="mb-0 text-muted fst-italic">"{{ discovery.user_notes }}"</p>
+            </div>
+          {% endif %}
+
+          <!-- Visible Characteristics -->
+          {% if discovery.visible_characteristics %}
+            <div class="mb-4">
+              <h5 class="fw-bold text-forest mb-2">
+                <i class="bi bi-eye me-1 text-primary"></i> Visible Characteristics
+              </h5>
+              <p class="text-muted mb-0">{{ discovery.visible_characteristics }}</p>
+            </div>
+          {% endif %}
+
+          <!-- Habitat & Ecology -->
+          {% if discovery.habitat_ecology %}
+            <div class="mb-4">
+              <h5 class="fw-bold text-forest mb-2">
+                <i class="bi bi-tree me-1 text-primary"></i> Habitat &amp; Ecological Role
+              </h5>
+              <p class="text-muted mb-0">{{ discovery.habitat_ecology }}</p>
+            </div>
+          {% endif %}
+
+          <!-- Educational Facts -->
+          {% if discovery.educational_facts %}
+            <div class="mb-4">
+              <h5 class="fw-bold text-forest mb-2">
+                <i class="bi bi-mortarboard me-1 text-primary"></i> Educational Facts
+              </h5>
+              <p class="text-muted mb-0">{{ discovery.educational_facts }}</p>
+            </div>
+          {% endif %}
+
+          <!-- Observation Activity -->
+          {% if discovery.observation_activity %}
+            <div class="nature-callout mb-4">
+              <strong class="d-block text-forest mb-1">
+                <i class="bi bi-activity me-1 text-primary"></i> Suggested Outdoor Observation:
+              </strong>
+              <p class="small text-muted mb-0">{{ discovery.observation_activity }}</p>
+            </div>
+          {% endif %}
+
+          <!-- Limitations -->
+          {% if discovery.limitations_notes %}
+            <div class="nature-warning-callout mb-4">
+              <strong class="d-block mb-1"><i class="bi bi-shield-exclamation me-1"></i> Identification Limitations:</strong>
+              <p class="small mb-0">{{ discovery.limitations_notes }}</p>
+            </div>
+          {% endif %}
+
+          <!-- Action Buttons -->
+          <div class="d-flex justify-content-between align-items-center pt-3 border-top">
+            <a href="{{ url_for('journal.edit_discovery', discovery_id=discovery.id) }}" class="btn btn-nature-secondary btn-sm">
+              <i class="bi bi-pencil me-1"></i> Edit Observation
+            </a>
+
+            <!-- Delete Form with Confirmation -->
+            <form method="POST" action="{{ url_for('journal.delete_discovery', discovery_id=discovery.id) }}" onsubmit="return confirm('Are you sure you want to delete this observation? This action cannot be undone.');">
+              <button type="submit" class="btn btn-outline-danger btn-sm">
+                <i class="bi bi-trash me-1"></i> Delete
+              </button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}

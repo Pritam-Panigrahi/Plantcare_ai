@@ -1,0 +1,17 @@
+{
+  "name": "NatureLens AI - Open-Source Nature Explorer",
+  "short_name": "NatureLens AI",
+  "description": "Look closer. Discover nature. Touch grass. Open-source local AI nature exploration companion.",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F5F7F0",
+  "theme_color": "#2E7D32",
+  "icons": [
+    {
+      "src": "/static/images/logo.svg",
+      "sizes": "192x192 512x512",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}

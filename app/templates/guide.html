@@ -1,0 +1,108 @@
+{% extends "base.html" %}
+
+{% block title %}AI Nature Guide — Ethical Outdoor Education | NatureLens AI{% endblock %}
+
+{% block content %}
+<div class="container-xl py-4">
+  <div class="row g-4">
+    <!-- Left Column: Guide Overview, Quick Prompts & Ethical Guidelines -->
+    <div class="col-lg-4">
+      <div class="nature-card p-4 mb-4">
+        <span class="badge bg-success-subtle text-success py-1 px-3 rounded-pill fw-semibold mb-2">
+          <i class="bi bi-chat-heart me-1"></i> Outdoor Assistant
+        </span>
+        <h2 class="h3 fw-bold text-forest mb-2">AI Nature Guide</h2>
+        <p class="text-muted small mb-3">
+          Powered by local open-weight language models via Ollama. Ask questions about wildlife habits, botanical anatomy, and mindful outdoor exploration.
+        </p>
+
+        <!-- Ethical Principles Box -->
+        <div class="p-3 rounded-3 bg-light-subtle border mb-4">
+          <h6 class="fw-bold text-forest small mb-2">
+            <i class="bi bi-shield-check text-primary me-1"></i> Ethical Exploration Code
+          </h6>
+          <ul class="small text-muted ps-3 mb-0" style="font-size: 0.82rem;">
+            <li>Never disturb active bird nests or animal dens.</li>
+            <li>Do not handle unfamiliar insects or stinging creatures.</li>
+            <li>Stay on designated trails to preserve micro-soils.</li>
+            <li>Leave no trace: pack out all trash.</li>
+          </ul>
+        </div>
+
+        <!-- Quick Starter Prompts -->
+        <h6 class="fw-bold small text-muted text-uppercase tracking-wider mb-2">Try Asking:</h6>
+        <div class="d-flex flex-column gap-2">
+          {% for prompt in starter_prompts %}
+            <button type="button" class="starter-chip-btn" data-question="{{ prompt }}">
+              <i class="bi bi-arrow-right-short text-primary"></i> {{ prompt }}
+            </button>
+          {% endfor %}
+        </div>
+      </div>
+
+      <!-- Local Model Architecture Card -->
+      <div class="nature-card p-3 bg-forest text-white">
+        <div class="d-flex align-items-center gap-2 mb-2">
+          <i class="bi bi-cpu text-accent-lime fs-5"></i>
+          <h6 class="fw-bold mb-0 text-white">Local Privacy Engine</h6>
+        </div>
+        <p class="small text-white-50 mb-0">
+          Your queries are processed directly on your computer's local hardware without transmitting text to corporate cloud servers. Conversations remain private and temporary.
+        </p>
+      </div>
+    </div>
+
+    <!-- Right Column: Interactive Chat Interface -->
+    <div class="col-lg-8">
+      <div class="guide-chat-window">
+        <!-- Chat Header -->
+        <div class="nature-card-header d-flex justify-content-between align-items-center">
+          <div class="d-flex align-items-center gap-2">
+            <div class="badge-icon-wrapper" style="width: 36px; height: 36px; font-size: 1.1rem; margin-bottom: 0;">
+              <i class="bi bi-tree"></i>
+            </div>
+            <div>
+              <h5 class="fw-bold mb-0 text-forest" style="font-size: 1.05rem;">Nature Conversation</h5>
+              <span class="small text-muted" style="font-size: 0.76rem;">Private local session &bull; Ephemeral by default</span>
+            </div>
+          </div>
+
+          <a href="{{ url_for('missions.missions') }}" class="btn btn-nature-secondary btn-sm" style="font-size: 0.8rem;">
+            <i class="bi bi-compass me-1"></i> Start a Mission
+          </a>
+        </div>
+
+        <!-- Messages Area -->
+        <div id="guide-messages" class="guide-messages-area">
+          <!-- Initial Assistant Message -->
+          <div class="guide-bubble assistant">
+            <p class="mb-2">
+              Hello, explorer! I'm your NatureLens AI Field Guide. 🌿
+            </p>
+            <p class="mb-2">
+              Whether you're curious about a bird calling in your backyard, how to identify different tree barks, or how to observe pollinators respectfully, ask away!
+            </p>
+            <div class="small text-muted fst-italic">
+              Tip: Click any starter question on the left or type your own question below.
+            </div>
+          </div>
+        </div>
+
+        <!-- Chat Input Form -->
+        <div class="p-3 border-top bg-light-subtle">
+          <form id="guide-chat-form" class="d-flex gap-2">
+            <input type="text" id="guide-question-input" class="form-control rounded-pill px-3" placeholder="Ask about birds, plants, park habitats, or walking exercises..." required autocomplete="off">
+            <button type="submit" id="guide-send-btn" class="btn btn-nature-primary px-4 rounded-pill">
+              <i class="bi bi-send-fill"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/guide.js') }}"></script>
+{% endblock %}

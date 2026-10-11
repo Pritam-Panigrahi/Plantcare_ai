@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <radialGradient id="dandiYellow" cx="50%" cy="50%" r="50%">
+      <stop offset="0%" stop-color="#FFEE58"/>
+      <stop offset="60%" stop-color="#FDD835"/>
+      <stop offset="100%" stop-color="#F57F17"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="300" fill="#F4F8F1"/>
+  
+  <g transform="translate(200, 150)">
+    <!-- Stem -->
+    <path d="M0 60 Q-5 110 5 145" fill="none" stroke="#689F38" stroke-width="6" stroke-linecap="round"/>
+    <!-- Involucre bracts -->
+    <path d="M-20 60 C-10 75, 10 75, 20 60 L15 50 L-15 50 Z" fill="#558B2F"/>
+    
+    <!-- Ray florets arranged radially -->
+    <!-- Layer 1 -->
+    <g fill="url(#dandiYellow)" opacity="0.95">
+      <ellipse cx="0" cy="0" rx="65" ry="65"/>
+    </g>
+    <!-- Detailed petaled spikes around circumference -->
+    <g stroke="#F57F17" stroke-width="2">
+      <!-- 16 florets -->
+      <line x1="0" y1="0" x2="0" y2="-75"/><line x1="0" y1="0" x2="30" y2="-70"/>
+      <line x1="0" y1="0" x2="55" y2="-55"/><line x1="0" y1="0" x2="70" y2="-30"/>
+      <line x1="0" y1="0" x2="75" y2="0"/><line x1="0" y1="0" x2="70" y2="30"/>
+      <line x1="0" y1="0" x2="55" y2="55"/><line x1="0" y1="0" x2="30" y2="70"/>
+      <line x1="0" y1="0" x2="0" y2="75"/><line x1="0" y1="0" x2="-30" y2="70"/>
+      <line x1="0" y1="0" x2="-55" y2="55"/><line x1="0" y1="0" x2="-70" y2="30"/>
+      <line x1="0" y1="0" x2="-75" y2="0"/><line x1="0" y1="0" x2="-70" y2="-30"/>
+      <line x1="0" y1="0" x2="-55" y2="-55"/><line x1="0" y1="0" x2="-30" y2="-70"/>
+    </g>
+    <!-- Inner disk fluff -->
+    <circle cx="0" cy="0" r="22" fill="#FFF9C4"/>
+    <circle cx="0" cy="0" r="14" fill="#FBC02D"/>
+  </g>
+</svg>

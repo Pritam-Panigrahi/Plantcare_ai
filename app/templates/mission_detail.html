@@ -1,0 +1,137 @@
+{% extends "base.html" %}
+
+{% block title %}{{ mission.title }} — Touch Grass Mission | NatureLens AI{% endblock %}
+
+{% block content %}
+<div class="container-xl py-4">
+  <div class="mb-3">
+    <a href="{{ url_for('missions.missions') }}" class="text-muted small text-decoration-none hover-primary">
+      <i class="bi bi-arrow-left me-1"></i> Back to Missions
+    </a>
+  </div>
+
+  <div class="row g-4 justify-content-center">
+    <div class="col-lg-8">
+      <div class="nature-card p-4 p-md-5">
+        <!-- Top Status Bar -->
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <span class="badge bg-success-subtle text-success border border-success-subtle text-capitalize py-1 px-3">
+              <i class="bi bi-geo-alt me-1"></i>{{ mission.environment }}
+            </span>
+            <span class="badge bg-light text-muted border py-1 px-3">
+              <i class="bi bi-clock me-1"></i>{{ mission.duration_minutes }} Minutes
+            </span>
+            <span class="badge bg-light text-muted border text-capitalize py-1 px-3">
+              {{ mission.difficulty }}
+            </span>
+          </div>
+
+          {% if mission.is_completed %}
+            <span class="badge bg-success text-white py-1 px-3 rounded-pill">
+              <i class="bi bi-check-circle-fill me-1"></i> Completed {{ mission.completions|length }} Time(s)
+            </span>
+          {% endif %}
+        </div>
+
+        <h1 class="display-6 fw-bold text-forest mb-3">{{ mission.title }}</h1>
+
+        <!-- Objective Callout -->
+        <div class="nature-callout mb-4">
+          <strong class="d-block text-forest mb-1"><i class="bi bi-flag-fill me-1 text-primary"></i> Objective:</strong>
+          <p class="mb-0 text-muted">{{ mission.objective }}</p>
+        </div>
+
+        <!-- Instructions -->
+        <div class="mb-4">
+          <h4 class="fw-bold text-forest mb-2">Step-by-Step Instructions</h4>
+          <div class="p-3 bg-light-subtle rounded-3 border">
+            <p class="mb-0 text-muted" style="white-space: pre-line;">{{ mission.instructions }}</p>
+          </div>
+        </div>
+
+        <!-- Observation Checklist -->
+        <div class="mb-4">
+          <h4 class="fw-bold text-forest mb-2">Observation Checklist</h4>
+          <p class="small text-muted mb-2">Check items off with your fingers as you observe them outdoors:</p>
+          <div class="p-3 bg-white rounded-3 border">
+            {% for item in mission.checklist %}
+              <div class="checklist-item">
+                <input type="checkbox" class="form-check-input mission-check-input mt-1" id="check-{{ loop.index }}">
+                <label for="check-{{ loop.index }}" class="form-check-label text-forest flex-grow-1 cursor-pointer">
+                  <span>{{ item }}</span>
+                </label>
+              </div>
+            {% endfor %}
+          </div>
+        </div>
+
+        <!-- Safety Guidance -->
+        <div class="nature-warning-callout mb-4">
+          <strong class="d-block mb-1"><i class="bi bi-shield-exclamation me-1"></i> Safety &amp; Ethics Guidance:</strong>
+          <p class="mb-0">{{ mission.safety_guidance }}</p>
+        </div>
+
+        <!-- Reflection Prompt Preview -->
+        <div class="p-3 rounded-3 bg-light border mb-4">
+          <h6 class="fw-bold text-forest mb-1"><i class="bi bi-question-circle me-1 text-primary"></i> Reflection Question for Later:</h6>
+          <p class="small text-muted mb-0 fst-italic">{{ mission.reflection_question }}</p>
+        </div>
+
+        <!-- Action Buttons -->
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 pt-3 border-top">
+          <div class="small text-muted">
+            <i class="bi bi-phone-vibrate me-1"></i> Tip: Lock your phone screen and step outside now!
+          </div>
+
+          <button type="button" class="btn btn-nature-primary btn-lg" data-bs-toggle="modal" data-bs-target="#completeMissionModal">
+            <i class="bi bi-check2-circle me-1"></i> Mark Mission Complete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Mark Mission Complete -->
+<div class="modal fade" id="completeMissionModal" tabindex="-1" aria-labelledby="completeModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+    <div class="modal-content border-0 shadow-lg rounded-4 overflow-hidden">
+      <div class="nature-card-header">
+        <h5 class="modal-title fw-bold text-forest mb-0" id="completeModalLabel">
+          <i class="bi bi-award text-primary me-2"></i>Mission Reflection &amp; Completion
+        </h5>
+      </div>
+      <form id="complete-mission-form" data-mission-id="{{ mission.id }}">
+        <div class="modal-body p-4">
+          <p class="small text-muted mb-3">
+            Celebrate your time outdoors! Record a brief thought before finalizing:
+          </p>
+
+          <div class="mb-3">
+            <label for="user_reflection" class="form-label small fw-bold text-forest">
+              {{ mission.reflection_question }}
+            </label>
+            <textarea id="user_reflection" class="form-control" rows="3" placeholder="Write your reflection here..." required></textarea>
+          </div>
+
+          <div class="mb-2">
+            <label for="outdoor_notes" class="form-label small fw-bold text-forest">
+              Additional Outdoor Notes (Optional)
+            </label>
+            <input type="text" id="outdoor_notes" class="form-control form-control-sm" placeholder="e.g. Sunny 18°C, gentle breeze, smelled damp pine">
+          </div>
+        </div>
+        <div class="modal-footer bg-light p-3">
+          <button type="button" class="btn btn-secondary rounded-pill btn-sm" data-bs-dismiss="modal">Cancel</button>
+          <button type="submit" class="btn btn-nature-primary rounded-pill btn-sm">Confirm Completion</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/missions.js') }}"></script>
+{% endblock %}

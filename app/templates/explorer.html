@@ -1,0 +1,251 @@
+{% extends "base.html" %}
+
+{% block title %}Nature Explorer — Local AI Species Identification | NatureLens AI{% endblock %}
+
+{% block content %}
+<div class="container-xl py-4">
+  <!-- Page Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <span class="badge bg-success-subtle text-success py-1 px-3 rounded-pill fw-semibold mb-2">
+        <i class="bi bi-camera me-1"></i> Vision Explorer
+      </span>
+      <h1 class="h2 fw-bold text-forest mb-1">Explore Nature in Your Neighborhood</h1>
+      <p class="text-muted mb-0">Photograph an organism or leaf to receive local open-weight AI species identification.</p>
+    </div>
+
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('journal.journal') }}" class="btn btn-nature-secondary btn-sm">
+        <i class="bi bi-journal-bookmark me-1"></i> View Journal
+      </a>
+      <a href="{{ url_for('missions.missions') }}" class="btn btn-nature-primary btn-sm">
+        <i class="bi bi-compass me-1"></i> Outdoor Missions
+      </a>
+    </div>
+  </div>
+
+  <div class="row g-4">
+    <!-- Left Column: Image Upload & Category Selection -->
+    <div class="col-lg-5">
+      <div class="nature-card p-4">
+        <h4 class="fw-bold mb-3 d-flex align-items-center gap-2">
+          <i class="bi bi-cloud-arrow-up text-primary"></i> 1. Select Photograph
+        </h4>
+
+        <!-- Hidden File Inputs -->
+        <input type="file" id="image-file-input" class="d-none" accept="image/png, image/jpeg, image/webp">
+        <input type="file" id="camera-file-input" class="d-none" accept="image/*" capture="environment">
+
+        <!-- Drag & Drop Zone -->
+        <div id="upload-dropzone" class="upload-dropzone mb-3" role="button" tabindex="0" aria-label="Drop photo here or browse">
+          <div class="upload-dropzone-icon">
+            <i class="bi bi-images"></i>
+          </div>
+          <h5 class="fw-bold mb-1">Drag &amp; drop your nature photo</h5>
+          <p class="text-muted small mb-3">Supports JPG, PNG, WEBP (Max 16MB)</p>
+          <div class="d-flex justify-content-center gap-2">
+            <span class="btn btn-nature-secondary btn-sm">
+              <i class="bi bi-folder2-open me-1"></i> Browse Files
+            </span>
+            <button type="button" id="camera-btn" class="btn btn-nature-lime btn-sm">
+              <i class="bi bi-camera me-1"></i> Use Camera
+            </button>
+          </div>
+        </div>
+
+        <!-- Image Preview Box -->
+        <div id="preview-container" class="preview-container d-none mb-3">
+          <img id="preview-img" src="" alt="Selected nature photo preview">
+          <button type="button" id="preview-remove-btn" class="preview-remove-btn" title="Remove photo" aria-label="Remove photo">
+            <i class="bi bi-x-lg"></i>
+          </button>
+        </div>
+
+        <!-- Category Filter Chips -->
+        <div class="mb-4">
+          <label class="form-label fw-bold small text-forest mb-1">
+            2. Approximate Category (Helps Local Model Focus)
+          </label>
+          <div class="category-pill-select" role="radiogroup" aria-label="Category selector">
+            <input type="radio" class="d-none category-radio-input" name="category_hint" id="cat-unknown" value="unknown" checked>
+            <label for="cat-unknown" class="category-radio-label">
+              <i class="bi bi-question-circle"></i> Unknown / Auto
+            </label>
+
+            <input type="radio" class="d-none category-radio-input" name="category_hint" id="cat-leaf" value="leaf">
+            <label for="cat-leaf" class="category-radio-label">
+              <i class="bi bi-tree"></i> Leaf
+            </label>
+
+            <input type="radio" class="d-none category-radio-input" name="category_hint" id="cat-flower" value="flower">
+            <label for="cat-flower" class="category-radio-label">
+              <i class="bi bi-flower1"></i> Flower
+            </label>
+
+            <input type="radio" class="d-none category-radio-input" name="category_hint" id="cat-plant" value="plant">
+            <label for="cat-plant" class="category-radio-label">
+              <i class="bi bi-flower2"></i> Plant
+            </label>
+
+            <input type="radio" class="d-none category-radio-input" name="category_hint" id="cat-bird" value="bird">
+            <label for="cat-bird" class="category-radio-label">
+              <i class="bi bi-feather"></i> Bird
+            </label>
+
+            <input type="radio" class="d-none category-radio-input" name="category_hint" id="cat-insect" value="insect">
+            <label for="cat-insect" class="category-radio-label">
+              <i class="bi bi-bug"></i> Insect
+            </label>
+          </div>
+        </div>
+
+        <!-- Analyze Button -->
+        <button type="button" id="analyze-submit-btn" class="btn btn-nature-primary w-100 py-2 fs-6 fw-bold" disabled>
+          <i class="bi bi-stars me-1"></i> Analyze with Local AI
+        </button>
+
+        <div class="mt-3 text-center">
+          <span class="small text-muted">
+            <i class="bi bi-shield-lock me-1"></i> Your photo is processed locally without third-party tracking.
+          </span>
+        </div>
+      </div>
+
+      <!-- Quick Tips Card -->
+      <div class="nature-card p-3 mt-4 bg-light-subtle">
+        <h6 class="fw-bold mb-2 text-forest"><i class="bi bi-lightbulb me-1"></i> Tips for Better Observations</h6>
+        <ul class="small text-muted ps-3 mb-0">
+          <li>Ensure good natural light on leaves, plumage, or petals.</li>
+          <li>Capture leaf venation and margins clearly.</li>
+          <li>Keep hands steady and observe without touching stinging organisms.</li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Right Column: Results & Journaling -->
+    <div class="col-lg-7">
+      <!-- Loading State Box -->
+      <div id="analyzing-box" class="nature-card analyzing-box d-none">
+        <div class="nature-spinner"></div>
+        <h4 class="fw-bold text-forest mb-2">Analyzing Nature Photograph</h4>
+        <p class="text-muted mb-3">Local vision model is inspecting visible physical characteristics...</p>
+        <div class="badge bg-success-subtle text-success py-2 px-3 rounded-pill small">
+          <i class="bi bi-cpu me-1"></i> Running local open-weight inference via Ollama
+        </div>
+      </div>
+
+      <!-- Discovery Result Card -->
+      <div id="discovery-result-card" class="nature-card p-4 d-none">
+        <div class="d-flex flex-wrap align-items-center justify-content-between gap-2 mb-3">
+          <div class="d-flex align-items-center gap-2">
+            <span id="res-category-badge" class="badge-category badge-unknown">unknown</span>
+            <span id="res-confidence-badge" class="badge rounded-pill badge-conf-moderate">Confidence: MODERATE</span>
+          </div>
+          <span id="res-model-badge" class="badge bg-light text-muted border">Local AI</span>
+        </div>
+
+        <h2 id="res-common-name" class="display-6 fw-bold text-forest mb-1">Common Name</h2>
+        <h5 id="res-scientific-name" class="fst-italic text-muted mb-4">Scientific Name</h5>
+
+        <!-- Visible Characteristics -->
+        <div class="mb-3">
+          <h6 class="fw-bold text-forest mb-1">
+            <i class="bi bi-eye me-1 text-primary"></i> Visible Characteristics:
+          </h6>
+          <p id="res-characteristics" class="text-muted small mb-0"></p>
+        </div>
+
+        <!-- Habitat & Ecology -->
+        <div class="mb-3">
+          <h6 class="fw-bold text-forest mb-1">
+            <i class="bi bi-geo-alt me-1 text-primary"></i> Habitat &amp; Ecological Role:
+          </h6>
+          <p id="res-habitat" class="text-muted small mb-0"></p>
+        </div>
+
+        <!-- Educational Facts -->
+        <div class="mb-3">
+          <h6 class="fw-bold text-forest mb-1">
+            <i class="bi bi-mortarboard me-1 text-primary"></i> Interesting Educational Facts:
+          </h6>
+          <p id="res-facts" class="text-muted small mb-0"></p>
+        </div>
+
+        <!-- Suggested Outdoor Observation Activity -->
+        <div class="nature-callout mb-3">
+          <h6 class="fw-bold text-forest mb-1">
+            <i class="bi bi-activity me-1 text-primary"></i> Suggested Outdoor Observation:
+          </h6>
+          <p id="res-activity" class="small text-muted mb-0"></p>
+        </div>
+
+        <!-- Limitations & Uncertainty Warning -->
+        <div class="nature-warning-callout mb-4">
+          <h6 class="fw-bold mb-1"><i class="bi bi-exclamation-triangle me-1"></i> Identification Limitations:</h6>
+          <p id="res-limitations" class="small mb-0"></p>
+        </div>
+
+        <!-- User Field Observation Inputs for Journaling -->
+        <div class="border-top pt-3 mb-3">
+          <h5 class="fw-bold text-forest mb-3">
+            <i class="bi bi-journal-plus me-1 text-primary"></i> Log in Personal Nature Journal
+          </h5>
+
+          <div class="row g-2 mb-3">
+            <div class="col-md-6">
+              <label for="res-location-name" class="form-label small fw-semibold">General Location (e.g. City Park, Backyard)</label>
+              <input type="text" id="res-location-name" class="form-control form-control-sm" placeholder="e.g. Oakridge Park Trail">
+            </div>
+            <div class="col-md-6">
+              <label for="res-user-notes" class="form-label small fw-semibold">Your Personal Field Notes</label>
+              <input type="text" id="res-user-notes" class="form-control form-control-sm" placeholder="e.g. Observed basking on a sunny stone">
+            </div>
+          </div>
+
+          <div class="d-flex justify-content-between align-items-center">
+            <button type="button" id="save-journal-btn" class="btn btn-nature-primary">
+              <i class="bi bi-bookmark-plus me-1"></i> Save to Nature Journal
+            </button>
+            <a href="{{ url_for('journal.journal') }}" class="btn btn-outline-secondary btn-sm">
+              View All Entries
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Empty / Default Initial State -->
+      <div id="explorer-empty-state" class="nature-card p-5 text-center">
+        <img src="{{ url_for('static', filename='images/logo.svg') }}" alt="NatureLens Logo" width="80" height="80" class="mb-3 opacity-75">
+        <h4 class="fw-bold text-forest mb-2">Ready to Identify Nature</h4>
+        <p class="text-muted max-w-500 mx-auto mb-4">
+          Upload an image on the left or take a photo with your mobile camera. Your local AI vision model will inspect visible anatomy and generate ethical naturalist notes.
+        </p>
+
+        <!-- Sample Quick Clicks -->
+        <div class="border-top pt-4">
+          <h6 class="small fw-bold text-muted text-uppercase tracking-wider mb-3">Or explore recent field discoveries:</h6>
+          <div class="row g-3 justify-content-center">
+            {% for disc in recent_discoveries %}
+              <div class="col-sm-6 text-start">
+                <a href="{{ url_for('journal.discovery_detail', discovery_id=disc.id) }}" class="p-2 border rounded-3 d-flex align-items-center gap-2 bg-white text-decoration-none hover-shadow">
+                  <div class="badge-category badge-{{ disc.category }}">{{ disc.category }}</div>
+                  <div class="text-truncate">
+                    <strong class="d-block small text-forest text-truncate">{{ disc.common_name }}</strong>
+                    <span class="text-muted" style="font-size: 0.72rem;">{{ disc.created_at.strftime('%b %d') }}</span>
+                  </div>
+                </a>
+              </div>
+            {% else %}
+              <p class="small text-muted fst-italic">No observations logged yet. Be the first to explore!</p>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/explorer.js') }}"></script>
+{% endblock %}

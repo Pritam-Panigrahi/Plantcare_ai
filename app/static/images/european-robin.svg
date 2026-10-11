@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <radialGradient id="robinBreast" cx="35%" cy="35%" r="65%">
+      <stop offset="0%" stop-color="#FF7043"/>
+      <stop offset="70%" stop-color="#F4511E"/>
+      <stop offset="100%" stop-color="#BF360C"/>
+    </radialGradient>
+  </defs>
+  <rect width="400" height="300" fill="#F4F8F1"/>
+
+  <g transform="translate(190, 150)">
+    <!-- Branch perched on -->
+    <path d="M-130 90 Q0 75 160 85" fill="none" stroke="#5D4037" stroke-width="8" stroke-linecap="round"/>
+    
+    <!-- Bird Body: Brown back & wings -->
+    <path d="M-55 25 C-75 -20, -40 -70, 0 -70 C35 -70, 65 -40, 60 15 C55 60, -10 75, -55 25 Z" fill="#6D4C41"/>
+    
+    <!-- Folded Wing -->
+    <path d="M-30 -10 C-60 10, -80 50, -85 70 C-65 65, -40 40, -15 20 Z" fill="#4E342E"/>
+    
+    <!-- Grey Neck Collar Edge -->
+    <path d="M10 -45 C-10 -30, -15 10, 0 30 C15 35, 25 10, 20 -40 Z" fill="#90A4AE" opacity="0.6"/>
+
+    <!-- Red-Orange Face & Breast -->
+    <path d="M5 -50 C25 -45, 45 -25, 42 10 C38 45, 10 50, -5 40 C-15 15, -10 -40, 5 -50 Z" fill="url(#robinBreast)"/>
+
+    <!-- White / Pale Belly -->
+    <path d="M-25 45 C-5 65, 20 60, 25 45 C15 48, -15 50, -25 45 Z" fill="#ECEFF1"/>
+
+    <!-- Head & Dark Beady Eye -->
+    <circle cx="28" cy="-42" r="5" fill="#212121"/>
+    <circle cx="29.5" cy="-43.5" r="1.5" fill="#FFFFFF"/>
+
+    <!-- Sharp Insect-Eating Beak -->
+    <polygon points="42,-44 56,-42 42,-37" fill="#3E2723"/>
+
+    <!-- Tail -->
+    <path d="M-55 25 L-95 65 L-85 70 L-45 35 Z" fill="#3E2723"/>
+
+    <!-- Legs & Claws gripping branch -->
+    <line x1="-10" y1="65" x2="-10" y2="85" stroke="#3E2723" stroke-width="3"/>
+    <line x1="10" y1="65" x2="10" y2="85" stroke="#3E2723" stroke-width="3"/>
+  </g>
+</svg>

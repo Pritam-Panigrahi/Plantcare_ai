@@ -1,0 +1,191 @@
+{% extends "base.html" %}
+
+{% block title %}Nature Journal — Personal Field Log | NatureLens AI{% endblock %}
+
+{% block content %}
+<div class="container-xl py-4">
+  <!-- Page Header -->
+  <div class="d-flex flex-column flex-md-row justify-content-between align-items-md-center gap-3 mb-4">
+    <div>
+      <span class="badge bg-success-subtle text-success py-1 px-3 rounded-pill fw-semibold mb-2">
+        <i class="bi bi-journal-bookmark me-1"></i> Personal Field Log
+      </span>
+      <h1 class="h2 fw-bold text-forest mb-1">Nature Journal</h1>
+      <p class="text-muted mb-0">Your catalog of biodiversity observations, saved photographs, and field notes.</p>
+    </div>
+
+    <div class="d-flex gap-2">
+      <a href="{{ url_for('journal.export_journal') }}" class="btn btn-nature-secondary btn-sm" download="naturelens_journal.json">
+        <i class="bi bi-download me-1"></i> Export JSON
+      </a>
+      <a href="{{ url_for('explorer.explorer') }}" class="btn btn-nature-primary btn-sm">
+        <i class="bi bi-camera me-1"></i> Add Observation
+      </a>
+    </div>
+  </div>
+
+  <!-- Filter & Search Toolbar -->
+  <div class="nature-card p-3 mb-4">
+    <div class="row g-3 align-items-center">
+      <!-- Search Input -->
+      <div class="col-md-6">
+        <form method="GET" action="{{ url_for('journal.journal') }}" class="d-flex gap-2">
+          <input type="hidden" name="category" value="{{ current_category }}">
+          <div class="input-group">
+            <span class="input-group-text bg-white border-end-0"><i class="bi bi-search text-muted"></i></span>
+            <input type="text" id="journal-search-input" name="q" value="{{ search_query }}" class="form-control border-start-0" placeholder="Search by species name, location, or notes...">
+          </div>
+          {% if search_query %}
+            <a href="{{ url_for('journal.journal', category=current_category) }}" class="btn btn-outline-secondary" title="Clear search">
+              <i class="bi bi-x-lg"></i>
+            </a>
+          {% endif %}
+        </form>
+      </div>
+
+      <!-- Category Filter Pills -->
+      <div class="col-md-6">
+        <div class="d-flex flex-wrap gap-1 justify-content-md-end">
+          <a href="{{ url_for('journal.journal', q=search_query, category='all') }}" class="btn btn-sm {% if current_category == 'all' %}btn-nature-primary{% else %}btn-outline-secondary{% endif %} rounded-pill">
+            All ({{ total_count }})
+          </a>
+          <a href="{{ url_for('journal.journal', q=search_query, category='bird') }}" class="btn btn-sm {% if current_category == 'bird' %}btn-nature-primary{% else %}btn-outline-secondary{% endif %} rounded-pill">
+            <i class="bi bi-feather"></i> Birds
+          </a>
+          <a href="{{ url_for('journal.journal', q=search_query, category='plant') }}" class="btn btn-sm {% if current_category == 'plant' %}btn-nature-primary{% else %}btn-outline-secondary{% endif %} rounded-pill">
+            <i class="bi bi-flower2"></i> Plants
+          </a>
+          <a href="{{ url_for('journal.journal', q=search_query, category='leaf') }}" class="btn btn-sm {% if current_category == 'leaf' %}btn-nature-primary{% else %}btn-outline-secondary{% endif %} rounded-pill">
+            <i class="bi bi-tree"></i> Leaves
+          </a>
+          <a href="{{ url_for('journal.journal', q=search_query, category='flower') }}" class="btn btn-sm {% if current_category == 'flower' %}btn-nature-primary{% else %}btn-outline-secondary{% endif %} rounded-pill">
+            <i class="bi bi-flower1"></i> Flowers
+          </a>
+          <a href="{{ url_for('journal.journal', q=search_query, category='insect') }}" class="btn btn-sm {% if current_category == 'insect' %}btn-nature-primary{% else %}btn-outline-secondary{% endif %} rounded-pill">
+            <i class="bi bi-bug"></i> Insects
+          </a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Journal Cards Grid -->
+  {% if entries %}
+    <div id="journal-cards-grid" class="row g-4">
+      {% for entry in entries %}
+        <div class="col-md-6 col-lg-4 journal-entry-card">
+          <div class="nature-card h-100 d-flex flex-direction-column">
+            <!-- Entry Image or Fallback Illustration -->
+            <div style="height: 200px; overflow: hidden; background: #E8ECE6; position: relative;">
+              {% if entry.image_filename %}
+                <img src="/uploads/{{ entry.image_filename }}" alt="{{ entry.common_name }}" class="w-100 h-100 object-fit-cover">
+              {% else %}
+                <div class="w-100 h-100 d-flex align-items-center justify-content-center text-muted">
+                  <i class="bi bi-image fs-1 opacity-50"></i>
+                </div>
+              {% endif %}
+
+              <div class="position-absolute top-0 start-0 m-2">
+                <span class="badge-category badge-{{ entry.category }} shadow-sm">
+                  {{ entry.category }}
+                </span>
+              </div>
+
+              {% if entry.is_demo %}
+                <div class="position-absolute top-0 end-0 m-2">
+                  <span class="badge bg-warning-subtle text-warning-emphasis border border-warning-subtle shadow-sm" style="font-size: 0.7rem;">
+                    Demo / Library
+                  </span>
+                </div>
+              {% endif %}
+            </div>
+
+            <!-- Card Content -->
+            <div class="p-4 flex-grow-1 d-flex flex-column">
+              <div class="d-flex justify-content-between align-items-start mb-1">
+                <h5 class="fw-bold text-forest mb-0">
+                  <a href="{{ url_for('journal.discovery_detail', discovery_id=entry.id) }}" class="text-forest hover-primary">
+                    {{ entry.common_name }}
+                  </a>
+                </h5>
+              </div>
+
+              {% if entry.scientific_name %}
+                <p class="fst-italic text-muted small mb-2">({{ entry.scientific_name }})</p>
+              {% endif %}
+
+              {% if entry.location_name %}
+                <div class="small text-muted mb-2">
+                  <i class="bi bi-geo-alt me-1 text-primary"></i>{{ entry.location_name }}
+                </div>
+              {% endif %}
+
+              {% if entry.user_notes %}
+                <p class="small text-muted bg-light p-2 rounded-2 mb-3 fst-italic">
+                  "{{ entry.user_notes }}"
+                </p>
+              {% else %}
+                <p class="small text-muted mb-3 flex-grow-1">
+                  {{ entry.visible_characteristics|truncate(90) if entry.visible_characteristics else 'Observation logged in journal.' }}
+                </p>
+              {% endif %}
+
+              <div class="mt-auto pt-3 border-top d-flex justify-content-between align-items-center small text-muted">
+                <span>
+                  <i class="bi bi-calendar3 me-1"></i>{{ entry.created_at.strftime('%b %d, %Y') }}
+                </span>
+                
+                <div class="d-flex gap-2">
+                  <a href="{{ url_for('journal.discovery_detail', discovery_id=entry.id) }}" class="btn btn-sm btn-nature-secondary py-1 px-2">
+                    Details
+                  </a>
+                  <a href="{{ url_for('journal.edit_discovery', discovery_id=entry.id) }}" class="btn btn-sm btn-outline-secondary py-1 px-2" title="Edit entry">
+                    <i class="bi bi-pencil"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endfor %}
+    </div>
+
+    <!-- Client-side zero search results indicator -->
+    <div id="journal-no-matches" class="nature-card p-5 text-center d-none mt-3">
+      <i class="bi bi-search fs-1 text-muted opacity-50 mb-3 d-block"></i>
+      <h5 class="fw-bold text-forest">No matching observations found</h5>
+      <p class="text-muted small">Try refining your search keyword or clearing filters.</p>
+    </div>
+
+  {% else %}
+    <!-- Empty State -->
+    <div class="nature-card p-5 text-center">
+      <div class="badge-icon-wrapper mx-auto mb-3">
+        <i class="bi bi-journal-plus"></i>
+      </div>
+      <h4 class="fw-bold text-forest mb-2">Your Journal is Waiting</h4>
+      <p class="text-muted small max-w-500 mx-auto mb-4">
+        {% if search_query or current_category != 'all' %}
+          No journal observations match the selected filter. Try switching back to all categories.
+        {% else %}
+          You haven't logged any discoveries yet. Step outside, snap a photograph of a plant or bird, and save your first observation!
+        {% endif %}
+      </p>
+
+      {% if search_query or current_category != 'all' %}
+        <a href="{{ url_for('journal.journal') }}" class="btn btn-nature-secondary btn-sm">
+          Clear Filters
+        </a>
+      {% else %}
+        <a href="{{ url_for('explorer.explorer') }}" class="btn btn-nature-primary">
+          <i class="bi bi-camera me-1"></i> Log First Observation
+        </a>
+      {% endif %}
+    </div>
+  {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script src="{{ url_for('static', filename='js/journal.js') }}"></script>
+{% endblock %}

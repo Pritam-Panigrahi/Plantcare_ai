@@ -1,0 +1,18 @@
+{% extends "base.html" %}
+
+{% block title %}Page Not Found (404) — NatureLens AI{% endblock %}
+
+{% block content %}
+<div class="container-xl py-5 text-center">
+  <div class="nature-card p-5 max-w-600 mx-auto">
+    <div class="fs-1 fw-bold text-forest mb-2">404</div>
+    <h2 class="h4 fw-bold text-forest mb-2">Trail Not Found</h2>
+    <p class="text-muted small mb-4">
+      The trail or observation page you are looking for does not exist or has been moved.
+    </p>
+    <a href="{{ url_for('main.index') }}" class="btn btn-nature-primary btn-sm">
+      <i class="bi bi-house-door me-1"></i> Return Home
+    </a>
+  </div>
+</div>
+{% endblock %}

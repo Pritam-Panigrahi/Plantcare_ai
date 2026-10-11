@@ -1,0 +1,88 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 500" width="800" height="500">
+  <defs>
+    <linearGradient id="skyGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+      <stop offset="0%" stop-color="#EBF4EE"/>
+      <stop offset="50%" stop-color="#F5F7F0"/>
+      <stop offset="100%" stop-color="#E2ECD8"/>
+    </linearGradient>
+    <linearGradient id="sunGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#FFF3B0"/>
+      <stop offset="100%" stop-color="#B8D986"/>
+    </linearGradient>
+    <linearGradient id="hillBack" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#8BB676"/>
+      <stop offset="100%" stop-color="#558B43"/>
+    </linearGradient>
+    <linearGradient id="hillMid" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#46883F"/>
+      <stop offset="100%" stop-color="#2E7D32"/>
+    </linearGradient>
+    <linearGradient id="hillFore" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#2A6B2E"/>
+      <stop offset="100%" stop-color="#163A2A"/>
+    </linearGradient>
+    <linearGradient id="lensRingHero" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#B8D986" stop-opacity="0.9"/>
+      <stop offset="100%" stop-color="#2E7D32" stop-opacity="0.5"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Sky Background -->
+  <rect width="800" height="500" fill="url(#skyGrad)"/>
+
+  <!-- Warm Morning Sun -->
+  <circle cx="620" cy="140" r="90" fill="url(#sunGrad)" opacity="0.65" filter="blur(2px)"/>
+
+  <!-- Distant Mountain Ridges -->
+  <path d="M0 320 Q200 240 400 290 T800 260 L800 500 L0 500 Z" fill="url(#hillBack)" opacity="0.45"/>
+  <path d="M0 350 Q180 290 380 340 T800 310 L800 500 L0 500 Z" fill="url(#hillMid)" opacity="0.75"/>
+  
+  <!-- Foreground Rolling Meadow -->
+  <path d="M0 400 Q220 340 460 390 T800 360 L800 500 L0 500 Z" fill="url(#hillFore)"/>
+
+  <!-- Giant Ancient Oak Tree Silhouette -->
+  <g transform="translate(140, 210)">
+    <!-- Tree Trunk -->
+    <path d="M70 190 Q65 110 50 80 Q60 50 45 10 Q55 45 75 75 Q95 50 110 15 Q100 50 85 85 Q105 120 100 190 Z" fill="#1B3322"/>
+    <!-- Canopy Foliage Masses -->
+    <circle cx="20" cy="50" r="45" fill="#2E7D32" opacity="0.9"/>
+    <circle cx="70" cy="15" r="55" fill="#388E3C" opacity="0.95"/>
+    <circle cx="120" cy="45" r="50" fill="#2E7D32" opacity="0.9"/>
+    <circle cx="50" cy="65" r="40" fill="#43A047" opacity="0.85"/>
+    <circle cx="95" cy="70" r="42" fill="#4CAF50" opacity="0.8"/>
+    <circle cx="70" cy="40" r="35" fill="#81C784" opacity="0.7"/>
+  </g>
+
+  <!-- Flight of Swallows / Songbirds -->
+  <g fill="#163A2A" opacity="0.85">
+    <path d="M520 130 Q530 120 540 130 Q550 120 560 130 Q545 133 520 130 Z" transform="scale(0.8)"/>
+    <path d="M590 100 Q600 90 610 100 Q620 90 630 100 Q615 103 590 100 Z" transform="scale(0.65)"/>
+    <path d="M640 145 Q650 135 660 145 Q670 135 680 145 Q665 148 640 145 Z" transform="scale(0.7)"/>
+  </g>
+
+  <!-- Wildflowers in Foreground -->
+  <g transform="translate(340, 410)">
+    <!-- Stems -->
+    <line x1="20" y1="90" x2="25" y2="25" stroke="#4CAF50" stroke-width="3"/>
+    <line x1="60" y1="90" x2="55" y2="15" stroke="#4CAF50" stroke-width="3"/>
+    <line x1="100" y1="90" x2="105" y2="35" stroke="#4CAF50" stroke-width="3"/>
+    <line x1="140" y1="90" x2="135" y2="20" stroke="#4CAF50" stroke-width="3"/>
+    <!-- Blooms -->
+    <circle cx="25" cy="25" r="8" fill="#FFF59D"/>
+    <circle cx="55" cy="15" r="10" fill="#FFB74D"/>
+    <circle cx="105" cy="35" r="9" fill="#FFF59D"/>
+    <circle cx="135" cy="20" r="11" fill="#E1BEE7"/>
+  </g>
+
+  <!-- Subtle AI Exploration Focus Reticle -->
+  <g transform="translate(480, 230)">
+    <circle cx="90" cy="90" r="75" fill="none" stroke="url(#lensRingHero)" stroke-width="3" stroke-dasharray="10 6"/>
+    <!-- Corner brackets -->
+    <path d="M30 60 L30 30 L60 30" fill="none" stroke="#B8D986" stroke-width="3" stroke-linecap="round"/>
+    <path d="M150 60 L150 30 L120 30" fill="none" stroke="#B8D986" stroke-width="3" stroke-linecap="round"/>
+    <path d="M30 120 L30 150 L60 150" fill="none" stroke="#B8D986" stroke-width="3" stroke-linecap="round"/>
+    <path d="M150 120 L150 150 L120 150" fill="none" stroke="#B8D986" stroke-width="3" stroke-linecap="round"/>
+    <!-- Central Target -->
+    <circle cx="90" cy="90" r="5" fill="#B8D986"/>
+  </g>
+</svg>

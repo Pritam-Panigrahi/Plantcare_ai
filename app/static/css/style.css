@@ -1,0 +1,690 @@
+/* ==========================================================================
+   NatureLens AI - Design System & Custom Stylesheet
+   Ethos: "Look closer. Discover nature. Touch grass."
+   Hacktoberfest Open-Source AI Challenge - Week 1
+   ========================================================================== */
+
+:root {
+  /* Brand Nature Color Palette */
+  --color-primary: #2E7D32;
+  --color-primary-dark: #1E5E22;
+  --color-primary-light: #4CAF50;
+  --color-forest: #163A2A;
+  --color-forest-dark: #0F261B;
+  --color-forest-light: #244E3B;
+  --color-bg-soft: #F5F7F0;
+  --color-bg-card: #FFFFFF;
+  --color-accent-lime: #B8D986;
+  --color-accent-lime-light: #D4EDB0;
+  --color-accent-earth: #8D6E63;
+  --color-accent-amber: #F57F17;
+
+  /* Neutrals & Text */
+  --color-text-main: #1C2826;
+  --color-text-muted: #5C6F68;
+  --color-text-light: #8E9F97;
+  --color-border: #E0E7DC;
+  --color-border-hover: #C5D4BF;
+
+  /* Typography */
+  --font-heading: 'Outfit', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  --font-body: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+
+  /* Shadows & Elevation */
+  --shadow-sm: 0 2px 6px rgba(22, 58, 42, 0.05);
+  --shadow-md: 0 6px 18px rgba(22, 58, 42, 0.08);
+  --shadow-lg: 0 14px 34px rgba(22, 58, 42, 0.12);
+  --shadow-hover: 0 16px 36px rgba(46, 125, 50, 0.16);
+
+  /* Border Radii */
+  --radius-sm: 8px;
+  --radius-md: 14px;
+  --radius-lg: 20px;
+  --radius-xl: 28px;
+  --radius-full: 9999px;
+
+  /* Transitions */
+  --transition-fast: 0.18s ease;
+  --transition-normal: 0.28s ease;
+}
+
+/* Base Setup */
+*, *::before, *::after {
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--font-body);
+  background-color: var(--color-bg-soft);
+  color: var(--color-text-main);
+  line-height: 1.6;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  overflow-x: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: var(--font-heading);
+  color: var(--color-forest);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: var(--color-primary);
+  text-decoration: none;
+  transition: color var(--transition-fast);
+}
+
+a:hover {
+  color: var(--color-primary-dark);
+}
+
+/* ==========================================================================
+   Navigation Bar & Header
+   ========================================================================== */
+
+.navbar-nature {
+  background: rgba(255, 255, 255, 0.92);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: 1px solid var(--color-border);
+  padding: 0.85rem 1rem;
+  position: sticky;
+  top: 0;
+  z-index: 1030;
+  transition: all var(--transition-normal);
+}
+
+.brand-logo-img {
+  width: 38px;
+  height: 38px;
+  filter: drop-shadow(0 2px 4px rgba(46, 125, 50, 0.2));
+  transition: transform var(--transition-normal);
+}
+
+.navbar-brand:hover .brand-logo-img {
+  transform: rotate(12deg) scale(1.05);
+}
+
+.brand-title {
+  font-family: var(--font-heading);
+  font-size: 1.35rem;
+  font-weight: 800;
+  color: var(--color-forest);
+  letter-spacing: -0.03em;
+}
+
+.brand-title span {
+  color: var(--color-primary);
+}
+
+.nav-link-nature {
+  font-weight: 600;
+  color: var(--color-forest);
+  padding: 0.5rem 0.9rem !important;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.nav-link-nature:hover {
+  color: var(--color-primary);
+  background-color: rgba(184, 217, 134, 0.25);
+}
+
+.nav-link-nature.active {
+  color: var(--color-primary-dark);
+  background-color: rgba(184, 217, 134, 0.35);
+}
+
+/* Offline & AI Status Banners */
+#offline-banner {
+  background: #FFF3CD;
+  color: #856404;
+  border-bottom: 1px solid #FFEBAA;
+  padding: 0.45rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 600;
+  display: none;
+  text-align: center;
+}
+
+.ai-status-pill {
+  font-size: 0.76rem;
+  font-weight: 700;
+  padding: 0.3rem 0.75rem;
+  border-radius: var(--radius-full);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all var(--transition-fast);
+}
+
+.ai-status-pill.online {
+  background: #E8F5E9;
+  color: #2E7D32;
+  border: 1px solid #C8E6C9;
+}
+
+.ai-status-pill.offline {
+  background: #FFF8E1;
+  color: #F57F17;
+  border: 1px solid #FFE082;
+}
+
+.status-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.ai-status-pill.online .status-dot {
+  background: #2E7D32;
+  box-shadow: 0 0 0 2px rgba(76, 175, 80, 0.3);
+  animation: pulse-green 2s infinite;
+}
+
+.ai-status-pill.offline .status-dot {
+  background: #F57F17;
+}
+
+@keyframes pulse-green {
+  0% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0.5); }
+  70% { transform: scale(1); box-shadow: 0 0 0 6px rgba(76, 175, 80, 0); }
+  100% { transform: scale(0.95); box-shadow: 0 0 0 0 rgba(76, 175, 80, 0); }
+}
+
+/* ==========================================================================
+   Buttons & Action Controls
+   ========================================================================== */
+
+.btn-nature-primary {
+  background-color: var(--color-primary);
+  color: #FFFFFF;
+  font-weight: 600;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-full);
+  border: none;
+  box-shadow: 0 4px 14px rgba(46, 125, 50, 0.25);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-nature-primary:hover, .btn-nature-primary:focus {
+  background-color: var(--color-primary-dark);
+  color: #FFFFFF;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 18px rgba(46, 125, 50, 0.35);
+}
+
+.btn-nature-secondary {
+  background-color: transparent;
+  color: var(--color-forest);
+  border: 2px solid var(--color-border);
+  font-weight: 600;
+  padding: 0.6rem 1.35rem;
+  border-radius: var(--radius-full);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+
+.btn-nature-secondary:hover {
+  background-color: rgba(184, 217, 134, 0.2);
+  border-color: var(--color-primary);
+  color: var(--color-primary-dark);
+  transform: translateY(-2px);
+}
+
+.btn-nature-lime {
+  background-color: var(--color-accent-lime);
+  color: var(--color-forest-dark);
+  font-weight: 700;
+  padding: 0.65rem 1.4rem;
+  border-radius: var(--radius-full);
+  border: none;
+  box-shadow: 0 4px 12px rgba(184, 217, 134, 0.4);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.btn-nature-lime:hover {
+  background-color: #A6CE6E;
+  color: var(--color-forest-dark);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Cards & Layout Components
+   ========================================================================== */
+
+.nature-card {
+  background: var(--color-bg-card);
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  box-shadow: var(--shadow-sm);
+  transition: transform var(--transition-normal), box-shadow var(--transition-normal);
+  overflow: hidden;
+}
+
+.nature-card:hover {
+  transform: translateY(-4px);
+  box-shadow: var(--shadow-hover);
+  border-color: var(--color-border-hover);
+}
+
+.nature-card-header {
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid var(--color-border);
+  background: rgba(245, 247, 240, 0.5);
+}
+
+.nature-card-body {
+  padding: 1.5rem;
+}
+
+/* Category Badges */
+.badge-category {
+  font-size: 0.78rem;
+  font-weight: 700;
+  padding: 0.35rem 0.8rem;
+  border-radius: var(--radius-full);
+  text-transform: capitalize;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.badge-bird { background: #E1F5FE; color: #0277BD; border: 1px solid #B3E5FC; }
+.badge-plant { background: #E8F5E9; color: #2E7D32; border: 1px solid #C8E6C9; }
+.badge-flower { background: #FCE4EC; color: #C2185B; border: 1px solid #F8BBD0; }
+.badge-leaf { background: #F1F8E9; color: #558B2F; border: 1px solid #DCEDC8; }
+.badge-insect { background: #FFF8E1; color: #F57F17; border: 1px solid #FFECB3; }
+.badge-unknown { background: #ECEFF1; color: #546E7A; border: 1px solid #CFD8DC; }
+
+/* Heuristic Confidence Badges */
+.badge-conf-high { background: #E8F5E9; color: #2E7D32; font-weight: 600; }
+.badge-conf-moderate { background: #FFF3E0; color: #EF6C00; font-weight: 600; }
+.badge-conf-low { background: #FFEBEE; color: #C62828; font-weight: 600; }
+
+/* Touch Grass Hero Section */
+.hero-nature-section {
+  position: relative;
+  background: linear-gradient(180deg, #F5F7F0 0%, #E8EFE2 100%);
+  padding: 3.5rem 1rem 4rem;
+  border-bottom: 1px solid var(--color-border);
+}
+
+.hero-badge-ethos {
+  background: #E8F5E9;
+  color: var(--color-primary);
+  border: 1px solid #C8E6C9;
+  border-radius: var(--radius-full);
+  padding: 0.4rem 1rem;
+  font-weight: 700;
+  font-size: 0.88rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1.25rem;
+}
+
+.hero-title {
+  font-size: 2.8rem;
+  font-weight: 800;
+  line-height: 1.15;
+  color: var(--color-forest);
+  margin-bottom: 1.25rem;
+}
+
+.hero-subtitle {
+  font-size: 1.18rem;
+  color: var(--color-text-muted);
+  max-width: 580px;
+  margin-bottom: 2rem;
+}
+
+.hero-img-frame {
+  position: relative;
+  border-radius: var(--radius-xl);
+  overflow: hidden;
+  box-shadow: var(--shadow-lg);
+  border: 4px solid #FFFFFF;
+}
+
+.hero-img-frame img {
+  width: 100%;
+  height: auto;
+  display: block;
+  transition: transform 0.6s ease;
+}
+
+.hero-img-frame:hover img {
+  transform: scale(1.02);
+}
+
+/* ==========================================================================
+   Nature Explorer Interface
+   ========================================================================== */
+
+.upload-dropzone {
+  border: 2px dashed #B0C4B1;
+  border-radius: var(--radius-lg);
+  padding: 2.5rem 1.5rem;
+  background: #FCFDFB;
+  text-align: center;
+  cursor: pointer;
+  transition: all var(--transition-fast);
+}
+
+.upload-dropzone:hover, .upload-dropzone.dragover {
+  border-color: var(--color-primary);
+  background: #F1F6EE;
+  transform: scale(1.01);
+}
+
+.upload-dropzone-icon {
+  font-size: 2.8rem;
+  color: var(--color-primary);
+  margin-bottom: 0.75rem;
+}
+
+.category-pill-select {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-top: 0.5rem;
+}
+
+.category-radio-label {
+  cursor: pointer;
+  padding: 0.45rem 1rem;
+  border-radius: var(--radius-full);
+  border: 1px solid var(--color-border);
+  background: #FFFFFF;
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: var(--color-forest);
+  transition: all var(--transition-fast);
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.category-radio-label:hover {
+  border-color: var(--color-primary);
+  background: #F5F7F0;
+}
+
+input[type="radio"].category-radio-input:checked + .category-radio-label {
+  background: var(--color-forest);
+  color: #FFFFFF;
+  border-color: var(--color-forest);
+}
+
+/* Image preview container */
+.preview-container {
+  position: relative;
+  border-radius: var(--radius-md);
+  overflow: hidden;
+  max-height: 380px;
+  background: #000000;
+}
+
+.preview-container img {
+  width: 100%;
+  max-height: 380px;
+  object-fit: contain;
+  display: block;
+}
+
+.preview-remove-btn {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: rgba(0, 0, 0, 0.65);
+  color: #FFFFFF;
+  border: none;
+  border-radius: 50%;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: background var(--transition-fast);
+}
+
+.preview-remove-btn:hover {
+  background: #D32F2F;
+}
+
+/* Inference Loading State */
+.analyzing-box {
+  padding: 2.5rem 1.5rem;
+  text-align: center;
+}
+
+.nature-spinner {
+  width: 54px;
+  height: 54px;
+  border: 4px solid rgba(46, 125, 50, 0.15);
+  border-top-color: var(--color-primary);
+  border-radius: 50%;
+  animation: spin 1s linear infinite;
+  margin: 0 auto 1.25rem;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+/* Discovery Detail Accordion & Callouts */
+.nature-callout {
+  background: rgba(184, 217, 134, 0.18);
+  border-left: 4px solid var(--color-primary);
+  padding: 1rem 1.25rem;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  margin: 1rem 0;
+}
+
+.nature-warning-callout {
+  background: #FFF8E1;
+  border-left: 4px solid #FFA000;
+  padding: 0.85rem 1.15rem;
+  border-radius: 0 var(--radius-md) var(--radius-md) 0;
+  margin: 1rem 0;
+  font-size: 0.9rem;
+  color: #5D4037;
+}
+
+/* ==========================================================================
+   AI Nature Guide (Chat)
+   ========================================================================== */
+
+.guide-chat-window {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  height: 500px;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-shadow: var(--shadow-sm);
+}
+
+.guide-messages-area {
+  flex: 1;
+  overflow-y: auto;
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.2rem;
+}
+
+.guide-bubble {
+  max-width: 82%;
+  padding: 1rem 1.3rem;
+  border-radius: 18px;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+.guide-bubble.assistant {
+  background: #F4F8F1;
+  color: var(--color-text-main);
+  align-self: flex-start;
+  border-bottom-left-radius: 4px;
+  border: 1px solid #E2EBDC;
+}
+
+.guide-bubble.user {
+  background: var(--color-primary);
+  color: #FFFFFF;
+  align-self: flex-end;
+  border-bottom-right-radius: 4px;
+}
+
+.starter-chip-btn {
+  background: #FFFFFF;
+  border: 1px solid var(--color-border);
+  color: var(--color-forest);
+  border-radius: var(--radius-full);
+  padding: 0.45rem 1rem;
+  font-size: 0.85rem;
+  font-weight: 600;
+  text-align: left;
+  transition: all var(--transition-fast);
+}
+
+.starter-chip-btn:hover {
+  background: var(--color-accent-lime);
+  border-color: #A3CB6A;
+  color: var(--color-forest-dark);
+  transform: translateY(-2px);
+}
+
+/* ==========================================================================
+   Missions & Badges
+   ========================================================================== */
+
+.checklist-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.75rem;
+  padding: 0.65rem 0.5rem;
+  border-bottom: 1px solid #EEF2EA;
+  transition: background var(--transition-fast);
+}
+
+.checklist-item:last-child {
+  border-bottom: none;
+}
+
+.checklist-item.checked span {
+  text-decoration: line-through;
+  color: var(--color-text-light);
+}
+
+.badge-card {
+  border: 1px solid var(--color-border);
+  border-radius: var(--radius-lg);
+  padding: 1.5rem 1rem;
+  text-align: center;
+  background: #FFFFFF;
+  transition: all var(--transition-normal);
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.badge-card.unlocked {
+  border-color: #B8D986;
+  background: linear-gradient(180deg, #FFFFFF 0%, #F5F9EE 100%);
+  box-shadow: 0 4px 16px rgba(184, 217, 134, 0.3);
+}
+
+.badge-card.locked {
+  opacity: 0.65;
+  background: #F9FAF8;
+  filter: grayscale(80%);
+}
+
+.badge-icon-wrapper {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: #E8F5E9;
+  color: var(--color-primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 0.9rem;
+  transition: transform var(--transition-normal);
+}
+
+.badge-card.unlocked:hover .badge-icon-wrapper {
+  transform: rotate(10deg) scale(1.1);
+}
+
+.badge-card.locked .badge-icon-wrapper {
+  background: #E0E0E0;
+  color: #757575;
+}
+
+/* ==========================================================================
+   Footer
+   ========================================================================== */
+
+.nature-footer {
+  background: var(--color-forest);
+  color: #D3E0D7;
+  padding: 3.5rem 1rem 1.75rem;
+  margin-top: auto;
+}
+
+.nature-footer h5 {
+  color: #FFFFFF;
+  font-size: 1.1rem;
+  margin-bottom: 1.25rem;
+}
+
+.nature-footer a {
+  color: #B8D986;
+}
+
+.nature-footer a:hover {
+  color: #FFFFFF;
+  text-decoration: underline;
+}
+
+.footer-divider {
+  border-top: 1px solid rgba(255, 255, 255, 0.12);
+  margin: 2rem 0 1.25rem;
+}
+
+/* Responsive adjustments */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.1rem;
+  }
+  .guide-chat-window {
+    height: 420px;
+  }
+}

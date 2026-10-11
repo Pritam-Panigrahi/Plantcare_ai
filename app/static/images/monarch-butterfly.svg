@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
+  <defs>
+    <radialGradient id="wingOrange" cx="40%" cy="40%" r="60%">
+      <stop offset="0%" stop-color="#FF9800"/>
+      <stop offset="70%" stop-color="#F57C00"/>
+      <stop offset="100%" stop-color="#E65100"/>
+    </radialGradient>
+  </defs>
+  <!-- Background -->
+  <rect width="400" height="300" fill="#F4F8F1"/>
+  <!-- Milkweed Blossom hint -->
+  <circle cx="200" cy="220" r="40" fill="#E8F5E9" opacity="0.8"/>
+  <circle cx="200" cy="215" r="28" fill="#CEE5D0" opacity="0.6"/>
+
+  <g transform="translate(200, 140)">
+    <!-- Left Forewing -->
+    <path d="M-5 -10 C-40 -80, -110 -75, -125 -30 C-135 5, -100 25, -5 5 Z" fill="url(#wingOrange)" stroke="#212121" stroke-width="4"/>
+    <!-- Left Hindwing -->
+    <path d="M-5 5 C-60 20, -90 55, -65 95 C-45 115, -15 85, -5 20 Z" fill="url(#wingOrange)" stroke="#212121" stroke-width="3.5"/>
+    
+    <!-- Right Forewing -->
+    <path d="M5 -10 C40 -80, 110 -75, 125 -30 C135 5, 100 25, 5 5 Z" fill="url(#wingOrange)" stroke="#212121" stroke-width="4"/>
+    <!-- Right Hindwing -->
+    <path d="M5 5 C60 20, 90 55, 65 95 C45 115, 15 85, 5 20 Z" fill="url(#wingOrange)" stroke="#212121" stroke-width="3.5"/>
+
+    <!-- Wing Veins (Black) -->
+    <path d="M-5 -5 Q-65 -45 -95 -20 M-5 -5 Q-40 -20 -80 0 M-5 5 Q-45 40 -50 75" fill="none" stroke="#212121" stroke-width="3"/>
+    <path d="M5 -5 Q65 -45 95 -20 M5 -5 Q40 -20 80 0 M5 5 Q45 40 50 75" fill="none" stroke="#212121" stroke-width="3"/>
+
+    <!-- Wing Margin Spots (White) -->
+    <g fill="#FFFFFF">
+      <circle cx="-118" cy="-20" r="2.5"/><circle cx="-110" cy="-5" r="2.5"/><circle cx="-95" cy="15" r="2.5"/>
+      <circle cx="-75" cy="70" r="2.5"/><circle cx="-60" cy="88" r="2.5"/><circle cx="-45" cy="98" r="2.5"/>
+      <circle cx="118" cy="-20" r="2.5"/><circle cx="110" cy="-5" r="2.5"/><circle cx="95" cy="15" r="2.5"/>
+      <circle cx="75" cy="70" r="2.5"/><circle cx="60" cy="88" r="2.5"/><circle cx="45" cy="98" r="2.5"/>
+    </g>
+
+    <!-- Butterfly Body & Antennae -->
+    <ellipse cx="0" cy="5" rx="5" ry="30" fill="#212121"/>
+    <circle cx="0" cy="-25" r="6" fill="#212121"/>
+    <path d="M-2 -28 Q-12 -45 -22 -52" fill="none" stroke="#212121" stroke-width="2" stroke-linecap="round"/>
+    <path d="M2 -28 Q12 -45 22 -52" fill="none" stroke="#212121" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="-22" cy="-52" r="2.5" fill="#212121"/>
+    <circle cx="22" cy="-52" r="2.5" fill="#212121"/>
+  </g>
+</svg>
